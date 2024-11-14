@@ -20,7 +20,7 @@ Hard Shadow
 | 2048 | ![](./images/lab1_Hard_SM2048.png)|
 
 
-PCF with ShadowMap Size `2048 * 2048`
+PCF with `ShadowMap Size = 2048 * 2048`
 
 | Filter Size | Shadows |
 | --- | --- |
@@ -28,11 +28,14 @@ PCF with ShadowMap Size `2048 * 2048`
 | 10 | ![](./images/lab1_PCF_SM2048_Filter10_Sample20.png)|
 | 20 | ![](./images/lab1_PCF_SM2048_Filter20_Sample20.png)|
 
-| Sample num | Shadows |
+| Sample Num | Shadows |
 | --- | --- |
 | 50  | ![](./images/lab1_PCF_SM2048_Filter20_Sample50.png) |
 | 100 | ![](./images/lab1_PCF_SM2048_Filter20_Sample100.png)|
 | 200 | ![](./images/lab1_PCF_SM2048_Filter20_Sample200.png)|
 
+PCSS with `ShadowMap Size = 2048 * 2048`, `Sample Num = 200` and `Filter Size = 20`
+
+![](./images/lab1_PCSS_SM2048_Filter20_Sample200.png)
 
 ---
