@@ -26,7 +26,7 @@ class WebGLRenderer {
         gl.depthFunc(gl.LEQUAL); // Near things obscure far things
 
         console.assert(this.lights.length != 0, "No light");
-        console.assert(this.lights.length == 1, "Multiple lights");
+        // console.assert(this.lights.length == 1, "Multiple lights");
 
         for (let i = 0; i < this.meshes.length; i++) {
             if(this.meshes[i].mesh.count > 10)
@@ -36,7 +36,7 @@ class WebGLRenderer {
                 this.meshes[i].mesh.transform.rotate[1] += degrees2Radians(10) * deltaime;
             }
         }
-
+        
         for (let l = 0; l < this.lights.length; l++) {      
             gl.bindFramebuffer(gl.FRAMEBUFFER, this.lights[l].entity.fbo);
             gl.clearColor(1.0, 1.0, 1.0, 1.0);
@@ -44,13 +44,18 @@ class WebGLRenderer {
 
             // Draw light
             // TODO: Support all kinds of transform
-            this.lights[l].meshRender.mesh.transform.translate = this.lights[l].entity.lightPos;
+
+            let lightPos = this.lights[l].entity.lightPos;
+            lightPos = vec3.rotateY(lightPos, lightPos, this.lights[l].entity.focalPoint, degrees2Radians(lightRotateSpeed[l]) * deltaime);
+            this.lights[l].entity.lightPos = lightPos;
+            this.lights[l].meshRender.mesh.transform.translate = lightPos;
             this.lights[l].meshRender.draw(this.camera);
 
             // Shadow pass
             if (this.lights[l].entity.hasShadowMap == true) {
                 for (let i = 0; i < this.shadowMeshes.length; i++) {
-                    // this.gl.useProgram(this.shadowMeshes[i].shader.program.glShaderProgram);
+                    if(this.shadowMeshes[i].material.lightIndex != l)
+                        continue;
                     let translation = this.shadowMeshes[i].mesh.transform.translate;
                     let rotation = this.shadowMeshes[i].mesh.transform.rotate;
                     let scale = this.shadowMeshes[i].mesh.transform.scale;
@@ -60,17 +65,29 @@ class WebGLRenderer {
                 }
             }
 
+            if(l != 0)
+            {
+                // 开启混合，把Additional Pass混合到Base Pass结果上，否则会覆盖Base Pass的渲染结果
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.ONE, gl.ONE);
+            }
+
             // Camera pass
             for (let i = 0; i < this.meshes.length; i++) {
+                if(this.meshes[i].material.lightIndex != l)
+                    continue;
                 this.gl.useProgram(this.meshes[i].shader.program.glShaderProgram);
                 let translation = this.meshes[i].mesh.transform.translate;
                 let rotation = this.meshes[i].mesh.transform.rotate;
                 let scale = this.meshes[i].mesh.transform.scale;
                 let lightMVP = this.lights[l].entity.CalcLightMVP(translation, rotation, scale);
                 this.meshes[i].material.uniforms.uLightMVP = { type: 'matrix4fv', value: lightMVP };
-                this.gl.uniform3fv(this.meshes[i].shader.program.uniforms.uLightPos, this.lights[l].entity.lightPos);
+                // this.gl.uniform3fv(this.meshes[i].shader.program.uniforms.uLightPos, this.lights[l].entity.lightPos);
+                this.meshes[i].material.uniforms.uLightPos = { type: '3fv', value: this.lights[l].entity.lightPos };
                 this.meshes[i].draw(this.camera);
             }
+
+            gl.disable(gl.BLEND);
         }
     }
 }

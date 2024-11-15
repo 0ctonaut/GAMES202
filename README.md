@@ -38,4 +38,8 @@ PCSS with `ShadowMap Size = 2048 * 2048`, `Sample Num = 200` and `Filter Size = 
 
 ![](./images/lab1_PCSS_SM2048_Filter20_Sample200.png)
 
+Multi lights with rotations
+
+![](./images/lab1_dynamic.gif)
+
 ---

@@ -4,7 +4,7 @@ class Material {
     #vsSrc;
     #fsSrc;
     // Uniforms is a map, attribs is a Array
-    constructor(uniforms, attribs, vsSrc, fsSrc, frameBuffer) {
+    constructor(uniforms, attribs, vsSrc, fsSrc, frameBuffer, lightIndex) {
         this.uniforms = uniforms;
         this.attribs = attribs;
         this.#vsSrc = vsSrc;
@@ -17,6 +17,7 @@ class Material {
         this.#flatten_attribs = attribs;
 
         this.frameBuffer = frameBuffer;
+        this.lightIndex = lightIndex;
     }
 
     setMeshAttribs(extraAttribs) {

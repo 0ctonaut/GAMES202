@@ -3,6 +3,7 @@ var cameraPosition = [30, 30, 30]
 //生成的纹理的分辨率，纹理必须是标准的尺寸 256*256 1024*1024  2048*2048
 var resolution = 2048;
 var fbo;
+let lightRotateSpeed = [10, 50]
 
 GAMES202Main();
 
@@ -44,11 +45,15 @@ function GAMES202Main() {
 
 	// Add lights
 	// light - is open shadow map == true
-	let lightPos = [0, 80, 80];
+	let lightPos1 = [80, 80, 80];
+	let lightPos2 = [-80, 80, 80];
 	let focalPoint = [0, 0, 0];
 	let lightUp = [0, 1, 0]
-	const directionLight = new DirectionalLight(5000, [1, 1, 1], lightPos, focalPoint, lightUp, true, renderer.gl);
-	renderer.addLight(directionLight);
+	
+	const directionLight1 = new DirectionalLight(2500, [1, 1, 1], lightPos1, focalPoint, lightUp, true, renderer.gl);
+	const directionLight2 = new DirectionalLight(2500, [1, 1, 1], lightPos2, focalPoint, lightUp, true, renderer.gl);
+	renderer.addLight(directionLight1);
+	renderer.addLight(directionLight2);
 
 	// Add shapes
 	
