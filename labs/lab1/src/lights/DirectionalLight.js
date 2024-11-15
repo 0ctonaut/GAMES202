@@ -1,7 +1,7 @@
 class DirectionalLight {
 
     constructor(lightIntensity, lightColor, lightPos, focalPoint, lightUp, hasShadowMap, gl) {
-        this.mesh = Mesh.cube(setTransform(0, 0, 0, 0.2, 0.2, 0.2, 0));
+        this.mesh = Mesh.cube(setTransform(0, 0, 0, 0, 0, 0, 0.2, 0.2, 0.2, 0));
         this.mat = new EmissiveMaterial(lightIntensity, lightColor);
         this.lightPos = lightPos;
         this.focalPoint = focalPoint;
@@ -15,7 +15,7 @@ class DirectionalLight {
         }
     }
 
-    CalcLightMVP(translate, scale) {
+    CalcLightMVP(translate, rotate, scale) {
         let lightMVP = mat4.create();
         let modelMatrix = mat4.create();
         let viewMatrix = mat4.create();
@@ -23,6 +23,9 @@ class DirectionalLight {
 
         // Model transform
         modelMatrix = mat4.translate(modelMatrix, modelMatrix, translate);
+        modelMatrix = mat4.rotateX(modelMatrix, modelMatrix, rotate[0])
+        modelMatrix = mat4.rotateY(modelMatrix, modelMatrix, rotate[1])
+        modelMatrix = mat4.rotateZ(modelMatrix, modelMatrix, rotate[2])
         modelMatrix = mat4.scale(modelMatrix, modelMatrix, scale);
         // View transform
         viewMatrix = mat4.lookAt(viewMatrix, this.lightPos, this.focalPoint, this.lightUp);
