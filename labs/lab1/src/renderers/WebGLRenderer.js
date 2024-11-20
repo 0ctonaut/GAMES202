@@ -65,12 +65,15 @@ class WebGLRenderer {
                 }
             }
 
-            if(l != 0)
-            {
-                // 开启混合，把Additional Pass混合到Base Pass结果上，否则会覆盖Base Pass的渲染结果
-                gl.enable(gl.BLEND);
-                gl.blendFunc(gl.ONE, gl.ONE);
-            }
+            // blend different lights
+            // if(l != 0)
+            // {
+            //     gl.enable(gl.BLEND);
+            //     gl.blendFunc(gl.ONE, gl.ONE);
+            // }
+
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.ONE, l == 0? gl.ZERO : gl.ONE);
 
             // Camera pass
             for (let i = 0; i < this.meshes.length; i++) {
@@ -86,7 +89,7 @@ class WebGLRenderer {
                 this.meshes[i].material.uniforms.uLightPos = { type: '3fv', value: this.lights[l].entity.lightPos };
                 this.meshes[i].draw(this.camera);
             }
-
+            // shadow pass does not need to blend
             gl.disable(gl.BLEND);
         }
     }
