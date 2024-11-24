@@ -45,7 +45,7 @@
 #include "Iex.h"
 #include <string.h>
 #include <map>
-
+#include <functional>
 #include "ImfNamespace.h"
 
 OPENEXR_IMF_INTERNAL_NAMESPACE_SOURCE_ENTER 
