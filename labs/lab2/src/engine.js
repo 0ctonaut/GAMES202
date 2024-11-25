@@ -88,21 +88,24 @@ async function GAMES202Main() {
 	// file parsing
 	for (let i = 0; i < envmap.length; i++) {
 
+		// load transport
 		let val = '';
 		await this.loadShaderFile(envmap[i] + "/transport.txt").then(result => {
 			val = result;
 		});
 
 		let preArray = val.split(/[(\r\n)\r\n' ']+/);
-		let lineArray = [];
 		precomputeLT[i] = []
 		for (let j = 1; j <= Number(preArray.length) - 2; j++) {
-			precomputeLT[i][j - 1] = Number(preArray[j])
+			precomputeLT[i][j - 1] = Number(preArray[j]) // 4(envmap) * mesh vertices count * 9(2-nd SH)
 		}
+		// console.log(precomputeLT.length, precomputeLT[i].length);
+		// load light
 		await this.loadShaderFile(envmap[i] + "/light.txt").then(result => {
 			val = result;
 		});
-
+		
+		let lineArray = [];
 		precomputeL[i] = val.split(/[(\r\n)\r\n]+/);
 		precomputeL[i].pop();
 		for (let j = 0; j < 9; j++) {
@@ -110,7 +113,7 @@ async function GAMES202Main() {
 			for (let k = 0; k < 3; k++) {
 				lineArray[k] = Number(lineArray[k]);
 			}
-			precomputeL[i][j] = lineArray;
+			precomputeL[i][j] = lineArray; // 4(envmap) * { 9(2-nd SH) * 3(color channel) }
 		}
 	}
 

@@ -45,3 +45,17 @@ Multi lights with rotations
 ![](./images/lab1_dynamic.gif)
 
 ---
+
+### LAB2
+
+The data format in `light.txt` is a `9×3` matrix, where the 9 rows correspond to the 2nd-order spherical harmonics, and the 3 columns represent the RGB channels.
+
+The data format in `transport.txt` is a `num × 9` matrix, where the num rows correspond to the count of mesh vertices, and the 9 columns represent 2nd-order spherical harmonics.
+
+[reference](https://zhuanlan.zhihu.com/p/596050050)
+
+![](./images/lab2_PRT_rotation.gif)
+
+
+```
+
